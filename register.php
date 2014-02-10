@@ -2,7 +2,7 @@
 require 'core/init.php';
 
 # If form is submitted
-if(isset($_POST['submit'])){
+if(isset($_POST['register'])){
 
   if(empty($_POST['regUsername']) || empty($_POST['regUsername']) || empty($_POST['regEmail'])){
 
@@ -44,6 +44,38 @@ if(isset($_POST['submit'])){
     exit();
   }
 }
+
+#login script
+if(isset($_POST['login'])) {
+  if(empty($_POST) === false) {
+
+  $username = trim($_POST['username']);
+  $password = trim($_POST['password']);
+
+  if(empty($username) === true || empty($password) === true) {
+    $errors[] = 'Sorry, but we need your username and password';
+  } else if ($users->user_exists($username) === false) {
+    $errors[] = 'Sorry that username doesn\'t exist';
+  } else if ($users->email_confirmed($username) === false) {
+    $errors[] = 'Sorry, but you need to activate your account. Please check your email';
+  } else {
+
+    $login = $users->login($username, $password);
+
+    if($login === false) {
+      $errors[] = 'Sorry, that username/password is invalid';
+    } else {
+      //username/password is correct and the login method of the $users object returns the user's id, which is stored in $login.
+      session_regenerate_id(true); // destroying the old session id and creating a new one
+      $_SESSION['id'] = $login; //the user's id is now set into the user's session in the form of $_SESSION['id'].
+
+      #redirect the user to home.php
+      header('Location: ma/index.php');
+      exit();
+    }
+  }
+  }
+}
 ?>
 <!doctype html>
 <html>
@@ -62,15 +94,7 @@ if(isset($_POST['submit'])){
   <link rel="stylesheet" type="text/css" href="core/template/css/bootstrap.css">
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <ul class="nav nav-pills pull-right">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="profile.html">Profile</a></li>
-      </ul>
-      <h3 class="text-muted">Life Bird</h3>
-    </div>
+<?php include 'includes/nav.php'; ?>
 
 <div class="container">
   <div class="row">
@@ -156,7 +180,7 @@ if(isset($_POST['submit'])){
                           <textarea style="margin: 0px; width: 477px; height: 94px;"></textarea><br />
        
                           <div>
-                            <input class="btn btn-primary" type="submit" name="submit"> <small>Have you read the <a href="">TOS</a>?</small>
+                            <input class="btn btn-primary" type="submit" name="register"> <small>Have you read the <a href="">TOS</a>?</small>
                           </div>
                       </form>
                     </div>
@@ -182,13 +206,10 @@ if(isset($_POST['submit'])){
                               </div>
                               <br />
                           </div>
-
-                          <div class="form-control">
                             <!-- button -->
                             <div class="controls">
-                              <button class="btn btn-success">Login</button>
+                            <input class="btn btn-primary" type="submit" value="Sign in" name="login"> <small>Have you read the <a href="">recent changes</a>?</small>
                             </div>
-                          </div>
                         </fieldset>
                       </form>
                     </div>

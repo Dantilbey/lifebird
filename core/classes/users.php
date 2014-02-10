@@ -81,7 +81,7 @@ public function register($username, $password, $email, $gender) {
 
 public function activate($email, $email_code) {
 
-	$query = $this->db->prepare("SELECT count('id') FROM 'users' WHERE 'email' = ? AND 'email_code' = ? AND 'confirmed' = ?");
+	$query = $this->db->prepare("SELECT count('id') FROM 'users' WHERE 'email' = ? AND 'email_code' = ? AND 'activated' = ?");
 
 	$query->bindValue(1, $email);
 	$query->bindValue(2, $email_code);
@@ -93,7 +93,7 @@ public function activate($email, $email_code) {
 
 		if($rows == 1) {
 
-			$query_2 = $this->db->prepare("UPDATE 'users' SET 'confirmed' = ? WHERE 'email' = ?");
+			$query_2 = $this->db->prepare("UPDATE 'users' SET 'activate' = ? WHERE 'email' = ?");
 
 			$query_2->bindValue(1, 1);
 			$query_2->bindValue(2, $email);
@@ -137,7 +137,7 @@ public function login($username, $password) {
 
 public function email_confirmed($username) {
 
-	$query = $this->db->prepare("SELECT COUNT(`id`) FROM `users` WHERE `username`= ? AND `confirmed` = ?");
+	$query = $this->db->prepare("SELECT COUNT(`id`) FROM `users` WHERE `username`= ? AND `activated` = ?");
 	$query->bindValue(1, $username);
 	$query->bindValue(2, 1);
 
