@@ -1,0 +1,86 @@
+Registration Form
+
+
+First Name 
+Last Name
+User Name
+Email
+Password
+Repeat Password
+Country
+Age
+
+What are you interested in?
+- No of keywords
+- No of words in keyword
+- Does the keyword exist already
+- Increase score of keyword
+- set user first name
+- set user last name
+- set user USERNAME
+- set user password w/ encryption
+- set user email
+- set user country index
+- set user age
+
+- set user group
+- set user reputation
+
+
+Send string in JSON format: 
+
+{"FirstName":"","LastName":"","UserName":"","Password":"","Country":"","DOB":{"Day":"","Month":"","Year":""},"KeywordIndex":{"NoKeywords":"","KeywordList":""}}
+
+CLASS User {
+	char FirstName[24]
+	char LastName[24]
+	char UserName[24]
+	char Password[512]
+	char Email[254]
+	int CountryNo
+	int GroupNo
+
+	STRUCT DOB {
+		char Day[2]
+		char Month[2]
+		char Year[4]
+	}
+
+	STRUCT KeywordIndex {
+		int NoKeywords
+		String KeywordList[NoKeywords]
+		int NoWords[NoKeywords]
+	}
+}
+
+Keyword List example: 
+
+KeywordList = "/cycling^/software development^/programming^/fitness^/health^/illustration^/music^/guitar^/rock^/pop^"
+NoKeywords = 10
+NoWords = [1,2,1,1,1,1,1,1,1,1]
+
+Original = "Cycling,Software Development, Programming,Fitness. Health , Illustration,  Music, Guitar, Rock and Pop."
+- check that there are no unwanted characters : return boolean 1/0
+- convert uppercase to lowercase
+- check spacing errors
+
+- Remove commas for end-of-keyword placeholder
+Common errors:
+1. spelling mistake
+2. double spacing
+3. space before comma
+4. full-stop instead of comma
+5. words like is, are, they, that, got, etc.
+6. and without a comma before last word.
+
+
+Emit characters = "!\"£$%^&*()_+-=¬`[{]};:\'@#~<>?/\|"
+
+if (KeywordIndex.NoWords[KeywordNo] = 1) CheckWordisNot();
+if (KeywordIndex.NoWords[KeywordNo] >= 2) { while (x < strlen(keyword)) { if (keyword[x] != " " ) CheckWordisNot.one(keyword, x); x++; CheckWordisNot.two(keyword, x); x++;}}
+
+Keyword Rules:
+A space indicates the end of a word
+if a space is followed by a comma or full stop, the space is emitted and will not do a word count
+if a space is reached and is not followed by a space or a comma the word count is incremented
+if the character is a comma the word count is incremented where the Keyword Index will then shift on to the next Keyword Number in order
