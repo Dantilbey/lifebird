@@ -1,17 +1,10 @@
 <?php
-$con = mysqli_connect('localhost', 'db_user', 'password', 'db_name');
-
-if (mysqli_connect_errno()) 
-{
-    die('Not connected : ' . mysql_error());
-}
-else 
-{
-    echo "Successful connection!\n";
-}
-
-/* creating "Users" table */
-$sql = "CREATE TABLE Users 
+#define table name
+$table = 'users';
+try {
+	$db = new PDO("mysql:dbname=lifebird;host=localhost", "root", "");
+	$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); #error handling
+	$sql = "CREATE TABLE Users 
                (
                 id INT(11) NOT NULL auto_increment,
                 username VARCHAR(16) NOT NULL,
@@ -29,15 +22,10 @@ $sql = "CREATE TABLE Users
                 activated ENUM('0','1') NOT NULL DEFAULT '0',
                 PRIMARY KEY (id),
                 UNIQUE KEY username (username, email)
-                )";
-
-/* Check if table creation was successful */
-if (mysqli_query($con,$sql))
-{
-  echo "Table Users created successfully!\n";
-}
-else
-{
-  echo "Error creating table: " . mysqli_error($con);
+                )"; # create users table
+	$db->exec($sql);
+	print("Created $table Table.\n");
+} catch (PDOException $e) {
+	echo $e->getMessage();
 }
 ?>
