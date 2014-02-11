@@ -1,3 +1,7 @@
+<?php
+require 'core/init.php';
+$general->logged_in_protect();
+?>
 <!doctype html>
 <html>
 <head>

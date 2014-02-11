@@ -2,9 +2,9 @@
 #define table name
 $table = 'users';
 try {
-	$db = new PDO("mysql:dbname=lifebird;host=localhost", "root", "");
-	$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); #error handling
-    $sql = "CREATE TABLE IF NOT EXISTS `users` (
+  $db = new PDO("mysql:dbname=littlebird;host=localhost", "birdy", "feedingbird21");
+  $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); #error handling
+  $sql = "CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(16) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -22,10 +22,10 @@ try {
   `activated` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;"
-	$db->exec($sql);
-	print("Created $table Table.\n");
+);"
+  $db->exec($sql);
+  print("Created $table Table.\n");
 } catch (PDOException $e) {
-	echo $e->getMessage();
+  echo $e->getMessage();
 }
 ?>
